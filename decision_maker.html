@@ -24,9 +24,10 @@
                 <textarea id="options" class="form-control" rows="3"></textarea>
             </div>
             <button type="button" class="btn btn-default" id="select">Select</button>
+            <button type="button" class="btn btn-default" id="clear">clear</button>
             <div class="form-group">
                 <label for="result">Options</label>
-                <input type="email" class="form-control" id="result" readonly/>
+                <input type="text" class="form-control" id="result" readonly/>
             </div>
         </form>
     </div>
@@ -44,6 +45,10 @@
             var n = os.length;
             var i = getRandomInt(0, n);
             $("#result").val(os[i]);
+        });
+
+        $("#clear").click(function () {
+            $("#options").val('');
         });
     });
 </script>

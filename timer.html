@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timer</title>
+</head>
+<body>
+<div class="container">
+    <div class="container text-center">
+        <h1>Timer</h1>
+    </div>
+    <hr/>
+    <div class="container">
+        <form class="text-center">
+            <div class="form-group row">
+                <!--<label for="time" class="pull-left">Time</label>-->
+                <!--<input id="time" class="form-control" type="text" contenteditable="false"/>-->
+                <h2 class="pull-left">Time: </h2>
+                <h3 id="time" class="text-right"></h3>
+            </div>
+            <hr/>
+            <button type="button" class="btn btn-success" id="start">Start</button>
+            <button type="button" class="btn btn-warning" id="pause">Pause</button>
+            <button type="button" class="btn btn-primary" id="reset">Reset</button>
+            <hr/>
+            <button type="button" class="btn btn-info" id="record">Record</button>
+            <button type="button" class="btn btn-danger" id="clear">Clear</button>
+
+            <div class="row">
+                <h3>Records</h3>
+            </div>
+            <div id="records"></div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script src="js/scaffold.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+    var timer = null;
+    var seconds = 0.;
+    var t = $("#time");
+    var rs = $("#records");
+    var i = 0;
+
+
+    function ticker() {
+        seconds += 0.01;  // 10 milliseconds = 0.010 seconds
+        timer = setTimeout('ticker()', 10);
+        t.html(seconds.toHHMMSS());
+    }
+
+    function start_ticker() {
+        timer = setTimeout('ticker()', 10);
+    }
+
+    $(document).ready(function () {
+        t.html(seconds.toHHMMSS());
+
+        $("#start").click(function () {
+            if(timer == null) {
+                start_ticker();
+            }
+        });
+
+        $("#pause").click(function () {
+            if(timer) {
+                clearTimeout(timer);
+                timer = null
+            } else {
+                start_ticker()
+            }
+        });
+
+        $("#reset").click(function () {
+            if(timer) {
+                clearTimeout(timer)
+            }
+            timer = null;
+            seconds = 0;
+            t.html(seconds.toHHMMSS());
+        });
+
+        $("#record").click(function () {
+            var d = $("<div></div>");
+            d.html((++i) + ' ' + seconds.toHHMMSS());
+            rs.append(d);
+        });
+
+        $("#clear").click(function () {
+            rs.html('');
+            i = 0
+        });
+    });
+</script>
+</html>
